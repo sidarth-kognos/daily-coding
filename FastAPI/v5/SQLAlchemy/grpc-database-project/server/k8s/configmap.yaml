@@ -1,0 +1,14 @@
+# ================================
+# k8s/configmap.yaml
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-server-config
+data:
+  GRPC_PORT: "50051"
+  LOG_LEVEL: "INFO"
+  MAX_WORKERS: "10"
+  DB_INIT_METHOD: "migration"  # "migration" or "create_tables"
+
+ 

@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+      - grpc-db
+    environment:
+      - GRPC_DATABASE_HOST=grpc-db
+      - GRPC_DATABASE_PORT=50051
+      - REDIS_URL=redis://redis:6379
+    volumes:
+      - ./app:/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  grpc-db:
+    # Replace with your actual gRPC database service image
+    image: your-grpc-db-service:latest
+    ports:
+      - "50051:50051"
+    environment:
+      - DATABASE_URL=postgresql://user:password@postgres:5432/fastapi_db
+
+  postgres:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=fastapi_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:

@@ -1,0 +1,17 @@
+# requirements.txt
+#grpcio==1.60.0
+#grpcio-tools==1.60.0
+grpcio==1.73.1
+grpcio-tools==1.73.1
+protobuf==6.31.0
+grpcio-reflection==1.73.1
+sqlalchemy==2.0.25
+alembic==1.13.1
+pymysql==1.1.0
+cryptography>=41.0.7,<42.0.0
+python-dotenv==1.0.0
+pydantic==2.11.7
+pydantic-settings==2.10.1
+structlog==23.2.0
+#grpcio-reflection==1.60.0
+

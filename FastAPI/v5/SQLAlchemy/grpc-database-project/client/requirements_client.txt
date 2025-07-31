@@ -1,0 +1,7 @@
+ # requirements_client.txt
+grpcio==1.60.0
+grpcio-tools==1.60.0
+python-dotenv==1.0.0
+structlog==23.2.0
+colorama==0.4.6
+

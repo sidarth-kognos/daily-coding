@@ -1,0 +1,37 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Editor settings
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Python environment files
+*.env
+.env
+
+# Alembic migration cache (optional)
+*.egg-info/
+*.db
+*.sqlite3
+versions/
+*env.py
+
+
+# Compiled Protobuf files (if you want to ignore them)
+*.pb2.py
+*_pb2_grpc.py
+*_pb2.py

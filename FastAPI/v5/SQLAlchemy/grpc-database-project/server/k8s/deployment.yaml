@@ -1,0 +1,73 @@
+# ================================
+# k8s/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-grpc-server
+  labels:
+    app: db-grpc-server
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: db-grpc-server
+  template:
+    metadata:
+      labels:
+        app: db-grpc-server
+    spec:
+      containers:
+      - name: db-grpc-server
+        image: your-registry/db-grpc-server:latest
+        ports:
+        - containerPort: 50051
+          name: grpc
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: database-url
+        envFrom:
+        - configMapRef:
+            name: db-server-config
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          exec:
+            command:
+            - python
+            - -c
+            - |
+              import grpc
+              import database_service_pb2_grpc
+              import database_service_pb2
+              channel = grpc.insecure_channel('localhost:50051')
+              stub = database_service_pb2_grpc.DatabaseServiceStub(channel)
+              response = stub.HealthCheck(database_service_pb2.HealthCheckRequest())
+              exit(0 if response.healthy else 1)
+          initialDelaySeconds: 30
+          periodSeconds: 30
+        readinessProbe:
+          exec:
+            command:
+            - python
+            - -c
+            - |
+              import grpc
+              import database_service_pb2_grpc
+              import database_service_pb2
+              channel = grpc.insecure_channel('localhost:50051')
+              stub = database_service_pb2_grpc.DatabaseServiceStub(channel)
+              response = stub.HealthCheck(database_service_pb2.HealthCheckRequest())
+              exit(0 if response.healthy else 1)
+          initialDelaySeconds: 5
+          periodSeconds: 10
+      imagePullSecrets:
+      - name: registry-secret
+

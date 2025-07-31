@@ -1,0 +1,25 @@
+# ================================
+# k8s/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-grpc-service
+  labels:
+    app: db-grpc-server
+spec:
+  type: ClusterIP
+  ports:
+  - port: 50051
+    targetPort: 50051
+    protocol: TCP
+    name: grpc
+  selector:
+    app: db-grpc-server
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-credentials
+type: Opaque
+data:
+  database-url: bXlzcWwrcHlteXNxbDovL3VzZXI6cGFzc3dvcmRAbXlzcWw6MzMwNi9kYXRhYmFzZQ==  # Base64 encoded 
